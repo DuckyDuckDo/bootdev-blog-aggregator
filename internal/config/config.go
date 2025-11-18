@@ -12,9 +12,9 @@ type Config struct {
 }
 
 // Helper function to Read Configuration File
-func Read(path string) (Config, error) {
+func Read(filepath string) (Config, error) {
 	var configResult Config
-	content, err := os.ReadFile(path)
+	content, err := os.ReadFile(filepath)
 	if err != nil {
 		return Config{}, err
 	}
@@ -27,14 +27,14 @@ func Read(path string) (Config, error) {
 }
 
 // Helper function to change the username in configuration file
-func (c *Config) SetUser(username string, path string) error {
+func (c *Config) SetUser(username string, filepath string) error {
 	c.CurrentUserName = username
 	data, err := json.Marshal(c)
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(path, data, 0644) // 0644 used to define read-write privileges to owner and read only privilege to others
+	err = os.WriteFile(filepath, data, 0644) // 0644 used to define read-write privileges to owner and read only privilege to others
 	if err != nil {
 		return err
 	}

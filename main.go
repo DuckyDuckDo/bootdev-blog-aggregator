@@ -22,5 +22,5 @@ func main() {
 		log.Fatalf("%v", err)
 	}
 
-	fmt.Printf("%s\n%s\n\n", cfg.DbURL, cfg.CurrentUserName)
+	fmt.Printf("%s\n%s\n", cfg.DbURL, cfg.CurrentUserName)
 }
