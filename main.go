@@ -1,26 +1,46 @@
 package main
 
 import (
-	"fmt"
 	"log"
+	"os"
 
 	"github.com/DuckyDuckDo/bootdev-blog-aggregator/internal/config"
 )
 
-const configFileName = ".gatorconfig.json"
+type state struct {
+	cfg *config.Config
+}
 
 func main() {
-	cfg, err := config.Read(configFileName)
+	cfg, err := config.Read()
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
 
-	cfg.SetUser("DuckyDo", configFileName)
-	cfg, err = config.Read(configFileName)
-
-	if err != nil {
-		log.Fatalf("%v", err)
+	appState := &state{
+		cfg: &cfg,
 	}
 
-	fmt.Printf("%s\n%s\n", cfg.DbURL, cfg.CurrentUserName)
+	commandMap := commands{
+		availableCommands: make(map[string]func(*state, command) error),
+	}
+
+	userArgs := os.Args
+	if len(userArgs) < 2 {
+		log.Fatal("Usage: go run . command args[...]")
+		os.Exit(1)
+	}
+
+	cmd := command{
+		name: userArgs[1],
+		args: userArgs[2:],
+	}
+
+	commandMap.register("login", handlerLogin)
+	err = commandMap.run(appState, cmd)
+	if err != nil {
+		log.Fatalf("%v", err)
+		os.Exit(1)
+	}
+
 }
