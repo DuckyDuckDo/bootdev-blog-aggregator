@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Handles the Logging In command ensuring correct arguments and error handling
 func handlerLogin(s *state, cmd command) error {
 	if len(cmd.args) != 1 {
 		return fmt.Errorf("Usage: %s <name>", cmd.name)
