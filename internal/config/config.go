@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-const configFileName = ".gatorconfig.json"
+const configFileName = "/Users/daviddo/.gatorconfig.json"
 
 // Defines a config struct based on gatorconfig.json
 type Config struct {
