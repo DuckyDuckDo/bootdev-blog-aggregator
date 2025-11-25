@@ -1,15 +1,19 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
 	"github.com/DuckyDuckDo/bootdev-blog-aggregator/internal/config"
+	"github.com/DuckyDuckDo/bootdev-blog-aggregator/internal/database"
+	_ "github.com/lib/pq"
 )
 
 // struct that will maintain app state and can be updated
 type state struct {
 	cfg *config.Config
+	db  *database.Queries
 }
 
 func main() {
@@ -19,8 +23,17 @@ func main() {
 		log.Fatalf("%v", err)
 	}
 
+	// Grabs initial database connection
+	db, err := sql.Open("postgres", cfg.DbURL)
+	dbQueries := database.New(db)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	// Updates the initial app state
 	appState := &state{
 		cfg: &cfg,
+		db:  dbQueries,
 	}
 
 	// establishes a map of commands
@@ -30,6 +43,8 @@ func main() {
 
 	// Registers a login command
 	commandMap.register("login", handlerLogin)
+	commandMap.register("register", handlerRegister)
+	commandMap.register("reset", handlerReset)
 
 	// checks the user usage of the CLI
 	userArgs := os.Args
