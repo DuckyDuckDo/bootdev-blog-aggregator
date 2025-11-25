@@ -41,10 +41,11 @@ func main() {
 		availableCommands: make(map[string]func(*state, command) error),
 	}
 
-	// Registers a login command
+	// Registers all commands that users can call in the CLI
 	commandMap.register("login", handlerLogin)
 	commandMap.register("register", handlerRegister)
 	commandMap.register("reset", handlerReset)
+	commandMap.register("users", handlerUsers)
 
 	// checks the user usage of the CLI
 	userArgs := os.Args
