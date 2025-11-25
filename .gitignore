@@ -1,3 +1,5 @@
 *.json
 bootdev-blog-aggregator
 *.mod
+*.sh
+
