@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// Handles the Logging In command ensuring correct arguments and error handling
+// Handles resetting the DB
 func handlerReset(s *state, cmd command) error {
 	if len(cmd.args) != 0 {
 		return fmt.Errorf("usage: %s", cmd.name)

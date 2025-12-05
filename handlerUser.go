@@ -63,6 +63,7 @@ func handlerRegister(s *state, cmd command) error {
 	return nil
 }
 
+// Handler function that ends up listing all users
 func handlerUsers(s *state, cmd command) error {
 	// Ensures correct usage of the command
 	if len(cmd.args) != 0 {

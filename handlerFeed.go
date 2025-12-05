@@ -60,6 +60,7 @@ func handlerAddFeed(s *state, cmd command) error {
 	return nil
 }
 
+// Handler function that ends up listing all feeds
 func handlerFeeds(s *state, cmd command) error {
 	// Checks for proper usage
 	if len(cmd.args) != 0 {
