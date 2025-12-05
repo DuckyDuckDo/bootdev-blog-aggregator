@@ -48,6 +48,7 @@ func main() {
 	commandMap.register("users", handlerUsers)
 	commandMap.register("agg", handlerAgg)
 	commandMap.register("addfeed", handlerAddFeed)
+	commandMap.register("feeds", handlerFeeds)
 
 	// checks the user usage of the CLI
 	userArgs := os.Args

@@ -11,6 +11,12 @@ import (
 
 // Handler function to print XML response RSS Aggregation
 func handlerAgg(s *state, cmd command) error {
+	// Checks for correct command usage
+	if len(cmd.args) != 0 {
+		return fmt.Errorf("usage: %s", cmd.name)
+	}
+
+	// Calls fetchFeed function to grab XML response
 	feedURL := "https://www.wagslane.dev/index.xml"
 	xmlResponse, err := fetchFeed(context.Background(), feedURL)
 	if err != nil {
@@ -51,5 +57,35 @@ func handlerAddFeed(s *state, cmd command) error {
 	}
 
 	fmt.Println(feed)
+	return nil
+}
+
+func handlerFeeds(s *state, cmd command) error {
+	// Checks for proper usage
+	if len(cmd.args) != 0 {
+		return fmt.Errorf("usage: %s", cmd.name)
+	}
+
+	// Queries the Feeds Table for all Feeds
+	allFeeds, err := s.db.GetFeeds(context.Background())
+	if err != nil {
+		return err
+	}
+
+	for _, feed := range allFeeds {
+		// Prints feed name and URL
+		fmt.Printf("- %s \n", feed.Name)
+		fmt.Printf("- %s \n", feed.Url)
+
+		// Fetches the user based on ID and prints user
+		feedUser, err := s.db.GetUserById(context.Background(), feed.UserID)
+		if err != nil {
+			return err
+		}
+
+		fmt.Printf("- %s \n", feedUser.Username)
+
+	}
+
 	return nil
 }
